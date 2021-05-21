@@ -23,6 +23,7 @@ const RootStack = () => {
       initialRouteName={helpers.getToken() ? 'RootTab' : 'LoginScreen'}
     >
       <Stack.Screen name="RootTab" component={RootTab} />
+      <Stack.Screen name="LoginScreen" component={LoginScreen} />
     </Stack.Navigator>
   );
 };

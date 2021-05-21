@@ -39,21 +39,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import helpers from '../../globals/helpers';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
-const LIMIT_DATA = 10;
-let LOADING = true;
-let CAN_LOAD_MORE = true;
-
-if (Platform.OS === 'android') {
-  if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-  }
-}
-
 const NotificationScreen = (props) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View>
-        <Text>Them</Text>
+        <Text>NotificationScreen</Text>
       </View>
     </SafeAreaView>
   );

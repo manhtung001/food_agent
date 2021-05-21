@@ -21,7 +21,8 @@ import {
   listShop,
   Profile,
   NotificationScreen,
-  OrderScreen
+  OrderScreen,
+  CreateScreen
 } from './../screens/index';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -57,6 +58,20 @@ const RootTab = ({ route }) => {
           }}
         />
         <BottomTab.Screen
+          name="CreateScreen"
+          component={CreateScreen}
+          options={{
+            tabBarIcon: ({ focused, color, size }) => (
+              <FontAwesome
+                size={30}
+                color={focused ? Color.Primary : Color.GRAY}
+                name="bell"
+              />
+            ),
+            tabBarLabel: 'Add'
+          }}
+        />
+        <BottomTab.Screen
           name="NotificationScreen"
           component={NotificationScreen}
           options={{
@@ -67,7 +82,7 @@ const RootTab = ({ route }) => {
                 name="bell"
               />
             ),
-            tabBarLabel: 'Thêm'
+            tabBarLabel: 'Danh sách ship'
           }}
         />
         <BottomTab.Screen

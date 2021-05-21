@@ -29,11 +29,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import helpers from '../../globals/helpers';
 
 
-const OrderScreen = (props) => {
+const ListShipScreen = (props) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Text>OrderScreen</Text>
+      <Text>ListShipScreen</Text>
     </SafeAreaView>
 
   );
@@ -133,4 +133,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default OrderScreen;
+export default ListShipScreen;

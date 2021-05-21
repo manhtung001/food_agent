@@ -105,16 +105,11 @@ const helpers = {
   login: async (data) => {
     let result = await dataService.login(data);
 
-    if (result?.token) {
+    if (result) {
       store.dispatch({
         type: 'SET_USER_INFO',
-        data: result?.user
+        data: result
       });
-      store.dispatch({
-        type: 'SET_TOKEN',
-        data: result.token
-      });
-      await AsyncStorage.setItem('token', result.token);
     }
     return result;
   },

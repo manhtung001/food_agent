@@ -26,6 +26,7 @@ import {
 } from './../screens/index';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Color from '../constants/Color';
@@ -62,13 +63,13 @@ const RootTab = ({ route }) => {
           component={CreateScreen}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
-              <FontAwesome
+              <AntDesign
                 size={30}
                 color={focused ? Color.Primary : Color.GRAY}
-                name="bell"
+                name="plus"
               />
             ),
-            tabBarLabel: 'Add'
+            tabBarLabel: 'Thêm'
           }}
         />
         <BottomTab.Screen

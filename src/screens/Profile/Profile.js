@@ -74,7 +74,7 @@ const Profile = (props) => {
                 marginBottom: 10
               }}
             >
-              {props.userInfo.name}
+              Email: {props.userInfo.email}
             </Text>
             <View style={{ flexDirection: 'row' }}>
               <Icon size={24} name="phone" color={Color.Primary} />
@@ -85,7 +85,7 @@ const Profile = (props) => {
                   marginLeft: 5
                 }}
               >
-                {props.userInfo.phone}
+                {props.userInfo.phoneNumber}
               </Text>
             </View>
           </View>

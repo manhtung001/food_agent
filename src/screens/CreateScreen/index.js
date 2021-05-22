@@ -59,7 +59,8 @@ const CreateScreen = (props) => {
       let data = {
         priceCheck,
         categoryCheck,
-        name
+        name,
+        idShop: props.userInfo.idShop
       }
       console.log(data)
     }
@@ -80,14 +81,21 @@ const CreateScreen = (props) => {
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
-            placeholder="Giá"
+            placeholder="Giá (VNĐ)"
             placeholderTextColor="#003f5c"
             autoCorrect={false}
             onChangeText={(text) => setPrice(text)}
             keyboardType="number-pad"
           />
         </View>
-        <Text>Loại sản phẩm</Text>
+        <Text
+          style={{
+            marginVertical: 10,
+            marginLeft: 20,
+            fontSize: 20
+          }}
+        >
+          Loại sản phẩm</Text>
         <View style={styles.inputView}>
           <TextInput
             style={styles.inputText}
@@ -136,7 +144,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#fb5b5a'
+    borderBottomColor: '#fb5b5a',
+    marginTop: 10
   },
   inputText: {
     height: 50,
@@ -144,4 +153,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateScreen;
+const mapStateToProps = (state) => ({
+  userInfo: state.userState?.user,
+  token: state.userState?.token
+});
+
+export default connect(mapStateToProps)(CreateScreen);
+

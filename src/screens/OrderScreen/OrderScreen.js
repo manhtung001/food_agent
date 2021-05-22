@@ -11,6 +11,7 @@ import {
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Color from '../../constants/Color';
 import FastImage from 'react-native-fast-image';
+import helpers from './../../globals/helpers';
 
 const listFood = (props) => {
 
@@ -62,11 +63,18 @@ const listFood = (props) => {
   };
 
   const deleteRow = (rowMap, rowKey) => {
-    closeRow(rowMap, rowKey);
-    const newData = [...listData];
-    const prevIndex = listData.findIndex(item => item.key === rowKey);
-    newData.splice(prevIndex, 1);
-    setListData(newData);
+    helpers.showComfirm({
+      textOk: "Đồng ý",
+      content: "Bạn có chắc chắn muốn xoá sản phầm này?",
+      onOk: () => {
+        closeRow(rowMap, rowKey);
+        const newData = [...listData];
+        const prevIndex = listData.findIndex(item => item.key === rowKey);
+        newData.splice(prevIndex, 1);
+        setListData(newData);
+      }
+    })
+
   };
 
   const onRowDidOpen = rowKey => {

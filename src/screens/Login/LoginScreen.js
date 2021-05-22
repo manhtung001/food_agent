@@ -33,7 +33,7 @@ const LoginScreen = ({ navigation }) => {
         user_name: phone,
         pass_word: password
       };
-      navigation.replace('RootTab');
+      // navigation.replace('RootTab');
       helpers.showLoading();
       let res = await helpers.login(data);
       helpers.hideModal();

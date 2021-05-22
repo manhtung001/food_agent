@@ -13,6 +13,10 @@ let dataService = {
     let url = 'api/user/order';
     return request.post(params, url);
   },
+  addProduct: (params) => {
+    let url = 'api/product/addProduct';
+    return request.post(params, url);
+  },
 
   getListShop: () => {
     let url = 'api/shop/getAll';

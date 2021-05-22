@@ -1,20 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   TouchableHighlight,
   View,
+
 } from 'react-native';
 
 import { SwipeListView } from 'react-native-swipe-list-view';
+import Color from '../../constants/Color';
 
-export default function ListFood() {
-  const [listData, setListData] = useState(
-    Array(20)
-      .fill('')
-      .map((_, i) => ({ key: `${i}`, text: `item #${i}` }))
-  );
+const listFood = (props) => {
+
+  useEffect(() => {
+    getList();
+  }, []);
+
+  const [listData, setListData] = useState([]);
+  const getList = async () => {
+
+    let data = {
+      idShop: 1,
+      name: "Bán trà sữa",
+      area: "Cầu Giấy",
+      email: "lehuyaa0103@gmail.com",
+      phoneNumber: "0847979889",
+      linkImage: "https://nhomsatquocthang.com/wp-content/uploads/2020/06/tu-tra-sua.png",
+      productResponseList: [
+        {
+          id: 1,
+          categoryProductName: "trà sữa",
+          shopname: "Bán trà sữa",
+          productName: "Trà sữa 1",
+          price: 100000,
+          idShop: 1,
+          idCategoryProduct: 1,
+          linkImage: "https://dayphache.edu.vn/wp-content/uploads/2020/02/mon-tra-sua-tran-chau.jpg"
+        },
+        {
+          id: 2,
+          categoryProductName: "trà sữa",
+          shopname: "Bán trà sữa",
+          productName: "Trà sữa 2",
+          price: 100000,
+          idShop: 1,
+          idCategoryProduct: 1,
+          linkImage: "https://dayphache.edu.vn/wp-content/uploads/2020/02/mon-tra-sua-tran-chau.jpg"
+        }
+      ]
+    }
+    setListData(data.productResponseList)
+  }
+
 
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
@@ -34,17 +72,26 @@ export default function ListFood() {
     console.log('This row opened', rowKey);
   };
 
-  const renderItem = data => (
-    <TouchableHighlight
-      onPress={() => console.log('You touched me')}
-      style={styles.rowFront}
-      underlayColor={'#AAA'}
-    >
-      <View>
-        <Text>I am {data.item.text} in a SwipeListView</Text>
+  const renderItem = data => {
+    console.log('renderItem')
+    console.log(data)
+    return (
+      <View
+        style={{
+          backgroundColor: Color.WHITE,
+          borderBottomColor: 'black',
+          borderBottomWidth: 1,
+          justifyContent: 'center',
+          height: 100,
+        }}
+        underlayColor={'#AAA'}
+      >
+        <View>
+          <Text>I am {data.item.productName}</Text>
+        </View>
       </View>
-    </TouchableHighlight>
-  );
+    )
+  };
 
   const renderHiddenItem = (data, rowMap) => (
     <View style={styles.rowBack}>
@@ -89,21 +136,15 @@ const styles = StyleSheet.create({
   backTextWhite: {
     color: '#FFF',
   },
-  rowFront: {
-    alignItems: 'center',
-    backgroundColor: '#CCC',
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    justifyContent: 'center',
-    height: 50,
-  },
+
   rowBack: {
     alignItems: 'center',
-    backgroundColor: '#DDD',
+    backgroundColor: 'pink',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingLeft: 15,
+    height: 100
   },
   backRightBtn: {
     alignItems: 'center',
@@ -111,7 +152,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'absolute',
     top: 0,
-    width: 75,
+    width: 100,
   },
   backRightBtnLeft: {
     backgroundColor: 'blue',
@@ -122,3 +163,5 @@ const styles = StyleSheet.create({
     right: 0,
   },
 });
+
+export default listFood;

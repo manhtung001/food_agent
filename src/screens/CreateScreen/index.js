@@ -28,7 +28,8 @@ import {
   FlatList,
   RefreshControl,
   LayoutAnimation,
-  UIManager
+  UIManager,
+  Keyboard
 } from 'react-native';
 import { connect } from 'react-redux';
 import dataService from '../../network/dataService';
@@ -57,12 +58,21 @@ const CreateScreen = (props) => {
       helpers.showMessage({ content: "Loại sản phẩm từ 1-3" })
     } else if (name.trim()) {
       let data = {
-        priceCheck,
-        categoryCheck,
+        price: priceCheck,
+        idCategoryProduct: categoryCheck,
         name,
         idShop: props.userInfo.idShop
       }
-      console.log(data)
+      helpers.showLoading();
+      let res = dataService.addProduct(data);
+      helpers.hideModal()
+      if (res.message = "Thêm thành công") {
+        setName("")
+        setPrice(0)
+        setCategory(0)
+        Keyboard.dismiss()
+        helpers.showMessage({ content: "Thêm thành công" })
+      }
     }
   }
 
@@ -76,6 +86,7 @@ const CreateScreen = (props) => {
             placeholderTextColor="#003f5c"
             autoCorrect={false}
             onChangeText={(text) => setName(text)}
+            value={name}
           />
         </View>
         <View style={styles.inputView}>
@@ -86,6 +97,7 @@ const CreateScreen = (props) => {
             autoCorrect={false}
             onChangeText={(text) => setPrice(text)}
             keyboardType="number-pad"
+            value={price.toString()}
           />
         </View>
         <Text
@@ -104,29 +116,60 @@ const CreateScreen = (props) => {
             autoCorrect={false}
             onChangeText={(text) => setCategory(text)}
             keyboardType="numeric"
+            value={category.toString()}
+
           />
         </View>
-        <Text>
-          1: Trà sữa
+        <View
+          style={{
+            marginLeft: 20,
+            marginTop: 10
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 20
+            }}
+          >
+            1: Trà sữa
         </Text>
-        <Text>
-          2: Đồ ăn
+          <Text
+            style={{
+              fontSize: 20
+            }}
+          >
+            2: Đồ ăn
         </Text>
-        <Text>
-          3: Cà phê
+          <Text
+            style={{
+              fontSize: 20
+            }}
+          >
+            3: Cà phê
         </Text>
+        </View>
         <TouchableOpacity
           style={{
             position: "absolute",
             bottom: 10,
             right: 0,
             left: 0,
-            backgroundColor: Color.PLACEHOLDER
+            padding: 10,
+            backgroundColor: Color.Primary,
+            borderRadius: 16,
+            margin: 20,
+            alignItems: "center",
+            justifyContent: "center"
           }}
           onPress={() => addFood()}
         >
-          <Text>
-            Them
+          <Text
+            style={{
+              fontSize: 20,
+              color: Color.WHITE
+            }}
+          >
+            Thêm
         </Text>
         </TouchableOpacity>
       </View>

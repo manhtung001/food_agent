@@ -10,6 +10,7 @@ import {
 
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Color from '../../constants/Color';
+import FastImage from 'react-native-fast-image';
 
 const listFood = (props) => {
 
@@ -81,13 +82,29 @@ const listFood = (props) => {
           backgroundColor: Color.WHITE,
           borderBottomColor: 'black',
           borderBottomWidth: 1,
-          justifyContent: 'center',
           height: 100,
         }}
         underlayColor={'#AAA'}
       >
-        <View>
-          <Text>I am {data.item.productName}</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center"
+          }}
+        >
+          <FastImage
+            style={{ width: 100, height: 100, marginLeft: 10 }}
+            source={{
+              uri: data.item.linkImage,
+              priority: FastImage.priority.normal
+            }}
+            resizeMode={FastImage.resizeMode.contain}
+          />
+          <View style={{ marginLeft: 20 }}>
+            <Text>Tên loại: {data.item.categoryProductName}</Text>
+            <Text>Tên sản phẩm: {data.item.productName}</Text>
+            <Text>Giá: {data.item.price}</Text>
+          </View>
         </View>
       </View>
     )

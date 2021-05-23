@@ -12,7 +12,8 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import Color from '../../constants/Color';
 import FastImage from 'react-native-fast-image';
 import helpers from './../../globals/helpers';
-
+import { connect } from 'react-redux';
+import dataService from '../../network/dataService';
 const listFood = (props) => {
 
   useEffect(() => {
@@ -20,39 +21,50 @@ const listFood = (props) => {
   }, []);
 
   const [listData, setListData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
   const getList = async () => {
 
-    let data = {
-      idShop: 1,
-      name: "Bán trà sữa",
-      area: "Cầu Giấy",
-      email: "lehuyaa0103@gmail.com",
-      phoneNumber: "0847979889",
-      linkImage: "https://nhomsatquocthang.com/wp-content/uploads/2020/06/tu-tra-sua.png",
-      productResponseList: [
-        {
-          id: 1,
-          categoryProductName: "trà sữa",
-          shopname: "Bán trà sữa",
-          productName: "Trà sữa 1",
-          price: 100000,
-          idShop: 1,
-          idCategoryProduct: 1,
-          linkImage: "https://dayphache.edu.vn/wp-content/uploads/2020/02/mon-tra-sua-tran-chau.jpg"
-        },
-        {
-          id: 2,
-          categoryProductName: "trà sữa",
-          shopname: "Bán trà sữa",
-          productName: "Trà sữa 2",
-          price: 100000,
-          idShop: 1,
-          idCategoryProduct: 1,
-          linkImage: "https://dayphache.edu.vn/wp-content/uploads/2020/02/mon-tra-sua-tran-chau.jpg"
-        }
-      ]
+    // let data = {
+    //   idShop: 1,
+    //   name: "Bán trà sữa",
+    //   area: "Cầu Giấy",
+    //   email: "lehuyaa0103@gmail.com",
+    //   phoneNumber: "0847979889",
+    //   linkImage: "https://nhomsatquocthang.com/wp-content/uploads/2020/06/tu-tra-sua.png",
+    //   productResponseList: [
+    //     {
+    //       id: 1,
+    //       categoryProductName: "trà sữa",
+    //       shopname: "Bán trà sữa",
+    //       productName: "Trà sữa 1",
+    //       price: 100000,
+    //       idShop: 1,
+    //       idCategoryProduct: 1,
+    //       linkImage: "https://dayphache.edu.vn/wp-content/uploads/2020/02/mon-tra-sua-tran-chau.jpg"
+    //     },
+    //     {
+    //       id: 2,
+    //       categoryProductName: "trà sữa",
+    //       shopname: "Bán trà sữa",
+    //       productName: "Trà sữa 2",
+    //       price: 100000,
+    //       idShop: 1,
+    //       idCategoryProduct: 1,
+    //       linkImage: "https://dayphache.edu.vn/wp-content/uploads/2020/02/mon-tra-sua-tran-chau.jpg"
+    //     }
+    //   ]
+    // }
+    // setListData(data.productResponseList)
+    setListData([]);
+    helpers.showLoading();
+    setRefreshing(true);
+    let res = await dataService.getProductByIdShop( props.userInfo.idShop);
+    console.log(res);
+    helpers.hideModal();
+    if (res) {
+      setListData(res.productResponseList);
     }
-    setListData(data.productResponseList)
+    setRefreshing(false);
   }
 
 
@@ -189,4 +201,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default listFood;
+const mapStateToProps = (state) => ({
+  userInfo: state.userState?.user,
+  token: state.userState?.token
+});
+
+
+export default connect(mapStateToProps)(listFood);

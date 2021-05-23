@@ -33,6 +33,14 @@ let dataService = {
     }
     return [];
   },
+
+  getAllOrder: (id) =>{
+    if(id){
+      let url = `api/admin/getAllOrder/${id}`;
+      return request.get(url);
+    }
+  },
+  
   getListSearchAll: () => {
     let url = 'api/product/getAll';
     return request.get(url);

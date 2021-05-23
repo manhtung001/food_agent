@@ -50,6 +50,7 @@ const LoginScreen = ({ navigation }) => {
         content: 'Vui lòng nhập số điện thoại và mật khẩu'
       });
     }
+    navigation.replace('RootTab');
   };
 
   return (

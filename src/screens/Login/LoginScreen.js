@@ -33,7 +33,6 @@ const LoginScreen = ({ navigation }) => {
         user_name: phone,
         pass_word: password
       };
-      // navigation.replace('RootTab');
       helpers.showLoading();
       let res = await helpers.login(data);
       helpers.hideModal();
@@ -50,7 +49,7 @@ const LoginScreen = ({ navigation }) => {
         content: 'Vui lòng nhập số điện thoại và mật khẩu'
       });
     }
-    navigation.replace('RootTab');
+    // navigation.replace('RootTab');
   };
 
   return (
@@ -105,6 +104,19 @@ const LoginScreen = ({ navigation }) => {
         style={styles.loginBtn}
       >
         <Text style={styles.loginText}>Đăng nhập</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('RegisterScreen');
+        }}
+      >
+        <Text
+          style={{
+            textDecorationLine: 'underline'
+          }}
+        >
+          Chưa có tài khoản? Đăng ký
+        </Text>
       </TouchableOpacity>
     </View>
   );

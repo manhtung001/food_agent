@@ -5,6 +5,11 @@ let dataService = {
     return request.post(params, url);
   },
 
+  register: (params) => {
+    let url = 'api/admin/register';
+    return request.post(params, url);
+  },
+
   refreshToken: (params, token) => {
     let url = 'api/shipper/renew-token';
     return request.post(params, url, token);
@@ -34,13 +39,13 @@ let dataService = {
     return [];
   },
 
-  getAllOrder: (id) =>{
-    if(id){
+  getAllOrder: (id) => {
+    if (id) {
       let url = `api/admin/getAllOrder/${id}`;
       return request.get(url);
     }
   },
-  
+
   getListSearchAll: () => {
     let url = 'api/product/getAll';
     return request.get(url);

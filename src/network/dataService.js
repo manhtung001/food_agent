@@ -22,6 +22,14 @@ let dataService = {
     let url = 'api/product/addProduct';
     return request.post(params, url);
   },
+  onChangeFood: (params) => {
+    let url = `api/product/changeProduct`;
+    return request.put(params, url);
+  },
+  onDeleteFood: (params) => {
+    let url = `api/product/removeProduct/${params}`;
+    return request.put({}, url);
+  },
 
   getListShop: () => {
     let url = 'api/shop/getAll';

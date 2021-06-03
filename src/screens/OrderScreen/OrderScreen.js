@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   View,
-
+  FlatList,
+  RefreshControl
 } from 'react-native';
 
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -15,163 +16,104 @@ import helpers from './../../globals/helpers';
 import { connect } from 'react-redux';
 import dataService from '../../network/dataService';
 const listFood = (props) => {
-
   useEffect(() => {
-    getList();
+    props.navigation.addListener('focus', () => {
+      getList();
+    });
   }, []);
 
   const [listData, setListData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  const getList = async () => {
 
-    // let data = {
-    //   idShop: 1,
-    //   name: "Bán trà sữa",
-    //   area: "Cầu Giấy",
-    //   email: "lehuyaa0103@gmail.com",
-    //   phoneNumber: "0847979889",
-    //   linkImage: "https://nhomsatquocthang.com/wp-content/uploads/2020/06/tu-tra-sua.png",
-    //   productResponseList: [
-    //     {
-    //       id: 1,
-    //       categoryProductName: "trà sữa",
-    //       shopname: "Bán trà sữa",
-    //       productName: "Trà sữa 1",
-    //       price: 100000,
-    //       idShop: 1,
-    //       idCategoryProduct: 1,
-    //       linkImage: "https://dayphache.edu.vn/wp-content/uploads/2020/02/mon-tra-sua-tran-chau.jpg"
-    //     },
-    //     {
-    //       id: 2,
-    //       categoryProductName: "trà sữa",
-    //       shopname: "Bán trà sữa",
-    //       productName: "Trà sữa 2",
-    //       price: 100000,
-    //       idShop: 1,
-    //       idCategoryProduct: 1,
-    //       linkImage: "https://dayphache.edu.vn/wp-content/uploads/2020/02/mon-tra-sua-tran-chau.jpg"
-    //     }
-    //   ]
-    // }
-    // setListData(data.productResponseList)
+  const getList = async () => {
     setListData([]);
     helpers.showLoading();
     setRefreshing(true);
-    let res = await dataService.getProductByIdShop( props.userInfo.idShop);
+    let res = await dataService.getProductByIdShop(props.userInfo.idShop);
     console.log(res);
     helpers.hideModal();
     if (res) {
       setListData(res.productResponseList);
     }
     setRefreshing(false);
-  }
-
-
-  const closeRow = (rowMap, rowKey) => {
-    if (rowMap[rowKey]) {
-      rowMap[rowKey].closeRow();
-    }
   };
 
-  const deleteRow = (rowMap, rowKey) => {
-    helpers.showComfirm({
-      textOk: "Đồng ý",
-      content: "Bạn có chắc chắn muốn xoá sản phầm này?",
-      onOk: () => {
-        closeRow(rowMap, rowKey);
-        const newData = [...listData];
-        const prevIndex = listData.findIndex(item => item.key === rowKey);
-        newData.splice(prevIndex, 1);
-        setListData(newData);
-      }
-    })
-
+  const toDetailFood = (item) => {
+    props.navigation.navigate('DetailFood', { data: item });
   };
-
-  const onRowDidOpen = rowKey => {
-    console.log('This row opened', rowKey);
-  };
-
-  const renderItem = data => {
-    console.log('renderItem')
-    console.log(data)
-    return (
-      <View
-        style={{
-          backgroundColor: Color.WHITE,
-          borderBottomColor: 'black',
-          borderBottomWidth: 1,
-          height: 100,
-        }}
-        underlayColor={'#AAA'}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center"
-          }}
-        >
-          <FastImage
-            style={{ width: 100, height: 100, marginLeft: 10 }}
-            source={{
-              uri: data.item.linkImage,
-              priority: FastImage.priority.normal
-            }}
-            resizeMode={FastImage.resizeMode.contain}
-          />
-          <View style={{ marginLeft: 20 }}>
-            <Text>Tên loại: {data.item.categoryProductName}</Text>
-            <Text>Tên sản phẩm: {data.item.productName}</Text>
-            <Text>Giá: {data.item.price}</Text>
-          </View>
-        </View>
-      </View>
-    )
-  };
-
-  const renderHiddenItem = (data, rowMap) => (
-    <View style={styles.rowBack}>
-      <Text>Left</Text>
-      <TouchableOpacity
-        style={[styles.backRightBtn, styles.backRightBtnLeft]}
-        onPress={() => closeRow(rowMap, data.item.key)}
-      >
-        <Text style={styles.backTextWhite}>Close</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.backRightBtn, styles.backRightBtnRight]}
-        onPress={() => deleteRow(rowMap, data.item.key)}
-      >
-        <Text style={styles.backTextWhite}>Delete</Text>
-      </TouchableOpacity>
-    </View>
-  );
 
   return (
     <View style={styles.container}>
-      <SwipeListView
+      <FlatList
+        bounces={true}
+        bouncesZoom={false}
+        contentContainerStyle={{
+          paddingBottom: 50
+        }}
+        refreshControl={
+          <RefreshControl
+            progressViewOffset={100}
+            refreshing={Platform.OS == 'ios' ? false : refreshing}
+            onRefresh={() => getList()}
+            colors={[Color.Primary, Color.SUCCESS, Color.Primary]}
+            tintColor={Color.Primary}
+          />
+        }
+        ListFooterComponent={
+          <View
+            style={{
+              width: '100%',
+              height: 200
+            }}
+          />
+        }
+        keyExtractor={(item, index) => index + ''}
         data={listData}
-        renderItem={renderItem}
-        renderHiddenItem={renderHiddenItem}
-        leftOpenValue={75}
-        rightOpenValue={-150}
-        previewRowKey={'0'}
-        previewOpenValue={-40}
-        previewOpenDelay={3000}
-        onRowDidOpen={onRowDidOpen}
+        renderItem={({ item, index }) => (
+          <TouchableOpacity
+            style={{
+              backgroundColor: Color.WHITE,
+              borderBottomColor: 'black',
+              borderBottomWidth: 1,
+              height: 100
+            }}
+            underlayColor={'#AAA'}
+            onPress={() => toDetailFood(item)}
+          >
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center'
+              }}
+            >
+              <FastImage
+                style={{ width: 100, height: 100, marginLeft: 10 }}
+                source={{
+                  uri: item.linkImage,
+                  priority: FastImage.priority.normal
+                }}
+                resizeMode={FastImage.resizeMode.contain}
+              />
+              <View style={{ marginLeft: 20 }}>
+                <Text>Tên loại: {item.categoryProductName}</Text>
+                <Text>Tên sản phẩm: {item.productName}</Text>
+                <Text>Giá: {item.price}</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        )}
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    flex: 1,
+    flex: 1
   },
   backTextWhite: {
-    color: '#FFF',
+    color: '#FFF'
   },
 
   rowBack: {
@@ -189,22 +131,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'absolute',
     top: 0,
-    width: 100,
+    width: 100
   },
   backRightBtnLeft: {
     backgroundColor: 'blue',
-    right: 75,
+    right: 75
   },
   backRightBtnRight: {
     backgroundColor: 'red',
-    right: 0,
-  },
+    right: 0
+  }
 });
 
 const mapStateToProps = (state) => ({
   userInfo: state.userState?.user,
   token: state.userState?.token
 });
-
 
 export default connect(mapStateToProps)(listFood);

@@ -6,6 +6,7 @@ export { default as Profile } from './Profile/Profile';
 //TABSCREEN
 
 export { default as OrderScreen } from './OrderScreen/OrderScreen';
+export { default as DetailFood } from './OrderScreen/DetailFood';
 
 export { default as NotificationScreen } from './Notification/NotificationScreen';
 

@@ -4,7 +4,8 @@ import helpers from '../globals/helpers';
 import { Platform } from 'react-native';
 
 // const HOST = 'http://192.168.55.111:8085';
-const HOST = 'https://appfoodorder.herokuapp.com';
+// const HOST = 'https://appfoodorder.herokuapp.com';
+const HOST = 'http://192.168.68.218:8085';
 
 const request = {
   get: (url) => {
